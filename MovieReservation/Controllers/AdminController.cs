@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MovieReservation.DataStore;
+using MovieReservation.Models;
 
 namespace MovieReservation.Controllers
 {
@@ -7,5 +9,10 @@ namespace MovieReservation.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        [HttpGet]
+        public ActionResult<List<User>> GetAllUsers()
+        {
+            return UserData.Users;
+        }
     }
 }
