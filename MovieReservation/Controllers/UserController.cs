@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieReservation.DataStore;
 using MovieReservation.Models;
 
@@ -11,6 +9,8 @@ namespace MovieReservation.Controllers
     public class UserController : ControllerBase
     {
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
         public ActionResult Register([FromBody] User newUser)
         {
             var currentUser = UserData.Users.FirstOrDefault(u => u.Email == newUser.Email);

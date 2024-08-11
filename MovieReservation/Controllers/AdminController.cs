@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieReservation.DataStore;
 using MovieReservation.Models;
 
@@ -9,10 +8,26 @@ namespace MovieReservation.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        [ProducesResponseType(200)]
         [HttpGet]
         public ActionResult<List<User>> GetAllUsers()
         {
-            return UserData.Users;
+            return Ok(UserData.Users);
+        }
+
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [HttpDelete]
+        public ActionResult Delete(string email)
+        {
+            var userToBeDeleted = UserData.Users.FirstOrDefault(u => u.Email == email);
+
+            if (userToBeDeleted == null)
+            {
+                return BadRequest("User deos not exist");
+            }
+            UserData.Users.Remove(userToBeDeleted);
+            return NoContent();
         }
     }
 }
