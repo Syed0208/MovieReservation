@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MovieReservation.DataStore;
 using MovieReservation.Models;
@@ -9,7 +9,7 @@ namespace MovieReservation.Controllers
     [ApiController]
     public class TicketController : ControllerBase
     {
-        [ProducesResponseType(200)]
+        [ProducesResponseType(201)]
         [ProducesResponseType(404)]
         [HttpPost("BookTicket")]
         public ActionResult BookTicket(string movieName)
@@ -52,7 +52,30 @@ namespace MovieReservation.Controllers
             }
             return Ok(currentTicket);
         }
+        /*
+         * Patch method calling from Postman/Swagger
+         
+         *  [ {
+            "path": "status",
+            "op": "replace",
+            "value": "Cancelled"
+             } ]
+         
+         */
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        [HttpPatch("UpdateTicket")]
+        public ActionResult UpdateTicketStatus(int ticketID, JsonPatchDocument<Ticket> ticket)
+        {
+            Ticket? currentTicket = GetTicketData(ticketID);
+            if (currentTicket == null)
+            {
+                return NotFound("No ticket found.");
+            }
+            ticket.ApplyTo(currentTicket);
+            return NoContent();
 
+        }
         private static Movie? GetMovie(string movie)
         {
             return MovieStore.Movies.FirstOrDefault(u => u.MovieName == movie);
