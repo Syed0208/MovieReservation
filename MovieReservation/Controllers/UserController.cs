@@ -4,7 +4,7 @@ using MovieReservation.Models;
 
 namespace MovieReservation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -13,14 +13,14 @@ namespace MovieReservation.Controllers
         [ProducesResponseType(400)]
         public ActionResult Register([FromBody] User newUser)
         {
-            var currentUser = UserData.Users.FirstOrDefault(u => u.Email == newUser.Email);
+            var currentUser = UserStore.Users.FirstOrDefault(u => u.Email == newUser.Email);
 
             if (currentUser != null)
             {
                 return BadRequest("User already exists");
             }
-            newUser.ID = UserData.Users.Max(u => u.ID) + 1;
-            UserData.Users.Add(newUser);
+            newUser.ID = UserStore.Users.Max(u => u.ID) + 1;
+            UserStore.Users.Add(newUser);
             return Ok("New User created successfully");
         }
     }

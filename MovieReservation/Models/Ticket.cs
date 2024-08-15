@@ -4,7 +4,9 @@
     {
         public int TicketID { get; set; }
 
-        public int TMovieID { get; set; }
+        public Movie? Movie { get; set; }
+
+        public string? Status { get; set; }
 
         public int CreatedBy { get; set; }
 

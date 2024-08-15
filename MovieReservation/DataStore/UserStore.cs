@@ -2,7 +2,7 @@
 
 namespace MovieReservation.DataStore
 {
-    internal static class UserData
+    internal static class UserStore
     {
         public static List<User> Users =
 [

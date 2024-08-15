@@ -4,7 +4,7 @@ using MovieReservation.Models;
 
 namespace MovieReservation.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1.0/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
@@ -12,7 +12,7 @@ namespace MovieReservation.Controllers
         [HttpGet]
         public ActionResult<List<User>> GetAllUsers()
         {
-            return Ok(UserData.Users);
+            return Ok(UserStore.Users);
         }
 
         [ProducesResponseType(204)]
@@ -20,13 +20,13 @@ namespace MovieReservation.Controllers
         [HttpDelete]
         public ActionResult Delete(string email)
         {
-            var userToBeDeleted = UserData.Users.FirstOrDefault(u => u.Email == email);
+            var userToBeDeleted = UserStore.Users.FirstOrDefault(u => u.Email == email);
 
             if (userToBeDeleted == null)
             {
                 return BadRequest("User deos not exist");
             }
-            UserData.Users.Remove(userToBeDeleted);
+            UserStore.Users.Remove(userToBeDeleted);
             return NoContent();
         }
     }
